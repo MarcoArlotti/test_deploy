@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>benvenuto in youtube</title>
+</head>
+<body>
+    <h1><i>Arlo™'s Flask 100% perfect system™</i></h1>
+    <img src="{{ url_for('static', filename='kiryu.gif') }}" alt="git gud" width="200 ">
+
+
+    <hr>
+
+    <nav> 
+        <fieldset>
+            <legend><i>Arlo's menu</i></legend>
+            <a href="/channel">CANALI</a></li>
+            <a href="/create_channel">CREA CANALE</a></li>
+        </fieldset>
+    </nav>
+
+    <hr>
+
+    <main>
+        {% block content %}
+        {% endblock%}
+    </main>
+    
+    <hr>
+    
+    <footer>
+        <i>
+            <small>2026 - Classe 5^M Informatica <br> Arlotti Marco - Arlo©™ All right reserved©</small>
+        </i>
+    </footer>
+</body>
+</html>

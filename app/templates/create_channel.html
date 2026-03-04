@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<p>seleziona una categoria</p>
+<form method="post">
+    <select name="categoria_id">
+        {% for categoria in lista_categorie %}
+            <option value="{{ categoria['id'] }}">{{ categoria['nome'] }}</option>
+        {% endfor %}
+    </select>
+
+    <input name="nome" placeholder="inserisci il nome"></input>
+
+    <input name="numero_iscritti" placeholder="inserisci il numero iscritti, kekw ez"></input>
+
+    <button type="submit">Invia</button>
+</form>
+{% endblock %}

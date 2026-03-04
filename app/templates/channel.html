@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for video in videos_html %}
+
+    <hr>
+    <h1>{{ video['titolo'] }}</h1>
+    <p>{{ video['immagine'] }}</p>
+    <h2>{{ video['durata'] }}</h2>
+    
+{% endfor %}
+{% endblock %}
