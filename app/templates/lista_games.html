@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+{% block content %}
+    
+    <form method="POST">
+        <select name="utente_scelto">
+        {% for utente in UTENTI%}
+            <option value="{{ utente['nome'] }}" >{{ utente['nome'] }}</option>
+        {% endfor %}
+        </select>
+    </form>
+
+    {% for game in GIOCHI %}
+        <hr>
+        <h2><a href="{{url_for('main.partite', id=game['id'])}}">NOME GIOCO: {{ game.nome }}</a></h2>
+        <p>NUMERO MAX GIOCATORI: {{ game.numero_giocatori_massimo }}</p>
+        <p>DURATA MEDIA: {{ game.durata_media }}</p>
+        <p>CATEGORIA: {{ game.categoria }}</p>
+
+        {% if utente_scelto %}
+        <form name="preferito" value = "{{ game['id'] }}">
+            <button type="submit" name="preferito">METTI PREFERITO</button> 
+        </form>
+        {% endif %}
+
+        <hr>
+    {% endfor %}
+{% endblock %}

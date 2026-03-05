@@ -5,13 +5,13 @@ import os
 if not os.path.exists('app/instance'):
     os.makedirs('app/instance')
 
-db_path = os.path.join('app/instance', 'video.db')
+db_path = os.path.join('app/instance', 'database.sqlite')
 
 # Ci connettiamo (se il file non esiste, lo crea)
 connection = sqlite3.connect(db_path)
 
 # Leggiamo lo schema SQL
-with open('app/youtube.sql') as f:
+with open('app/database.sql') as f:
     connection.executescript(f.read())
 
 print("Database creato con successo in:", db_path)

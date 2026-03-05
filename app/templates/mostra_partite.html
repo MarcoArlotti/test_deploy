@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+
+{% block content %}
+    {% if partite %}
+        <h2>NOME GIOCO: {{ partite[0].nome }}</h2>
+
+    {% for partita in partite %}
+        <hr>
+        <p>DATA: {{ partita.data }}</p>
+        <p>VINCITORE: {{ partita.vincitore }}</p>
+        <p>PUNTEGGIO VINCITORE: {{ partita.punteggio_vincitore }}</p>
+        <hr>
+    {% endfor %}
+    {% else %}
+    <h2>NO GIOCO E PARTITE TROVATE</h2>
+    {% endif %}
+{% endblock %}

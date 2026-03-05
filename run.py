@@ -7,4 +7,5 @@ app = create_app()
 
 # Se questo file viene eseguito direttamente (non importato), avvia il server
 if __name__ == '__main__':
-    app.run(debug=False,port=2000)
+    app.run(debug=True,port=2069)
+# gunicorn --bind 0.0.0.0:2069 run:app

@@ -12,9 +12,9 @@ def create_app():
     app.config.from_mapping(
         # SECRET_KEY serve a Flask per firmare i dati sicuri (es. sessioni).
         # 'dev' va bene per sviluppare, ma in produzione andrà cambiata.
-        SECRET_KEY=os.environ.get("SECRET_KEY","dev"),
+        SECRET_KEY='dev',
         # Diciamo a Flask dove salvare il file del database SQLite
-        DATABASE=os.path.join(app.instance_path, 'video.db'),
+        DATABASE=os.path.join('app/instance/database.sqlite'),
     )
 
     # --- AGGIUNGI QUESTO ---
@@ -25,9 +25,6 @@ def create_app():
     # --- REGISTRAZIONE BLUEPRINTS ---
     from . import main
     app.register_blueprint(main.bp)
-    
-    # from . import auth
-    # app.register_blueprint(auth.bp)
     # --------------------------------
 
     return app

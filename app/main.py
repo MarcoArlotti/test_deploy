@@ -1,40 +1,67 @@
-# app/main.py
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
-
-from app.db import post_db
-from app.repository.canali_repositories import get_channel
-from app.repository.video_repositories import get_videos
-from app.repository.categorie import get_categorie
+from app.repository.repo import salva_gioco, prendi_giochi, prendi_utenti, lista_partite, aggiorna_preferito
+from app.db import get_db
+# from app.repository.repo import salva_gioco
 
 bp = Blueprint('main', __name__)
 
-@bp.route('/channel')
-def index():
-    channels_py = get_channel()
-    return render_template("stampa_canali.html", channels_html=channels_py)
 
-@bp.route('/channel/<int:canale_id>')
-def channel(canale_id):
-    video_py = get_videos(canale_id)
-    return render_template("channel.html",videos_html=video_py)
+@bp.route('/')
+def home():
+    return render_template('home.html')
 
-@bp.route('/create_channel', methods=['GET','POST'])
-def create_channel():
+
+@bp.route('/giochi',  methods=['GET', 'POST'])
+def wiew():
     if request.method == 'GET':
-        categorie_py:list = get_categorie()
-        return render_template('create_channel.html', lista_categorie=categorie_py)
-    
+        GIOCHI = prendi_giochi()
+        UTENTI = prendi_utenti()
+        return render_template('lista_games.html', GIOCHI=GIOCHI, UTENTI=UTENTI)
     if request.method == 'POST':
-        categoria_id = request.form.get('categoria_id')
-        nome = request.form.get('nome')
-        numero_iscritti = request.form.get('numero_iscritti')
+        GIOCHI = prendi_giochi()
+        UTENTI = prendi_utenti()
 
-        query = """ INSERT INTO canali (nome, numero_iscritti, categoria_id) VALUES (?, ?, ?) """
-        post_db(query, (nome,numero_iscritti,categoria_id))
-        categorie_py = get_categorie()
+        utente_scelto = request.form["utente_scelto"]
+        gioco_id = request.form["preferito"]
 
+        aggiorna_preferito(utente_scelto,gioco_id)
 
+        return render_template('lista_games.html',utente_scelto=utente_scelto, GIOCHI=GIOCHI, UTENTI=UTENTI)
+    
 
-        return render_template('create_channel.html', lista_categorie=categorie_py)
+@bp.route('/create', methods=['GET', 'POST'])
+def create_game():
+    if request.method == 'GET':
+        return render_template('create_game.html')
+    if request.method == 'POST':
+        nome = request.form['nome']
+        n_max_player = request.form['n_max_player']
+        durata = request.form['durata']
+        categoria = request.form['categoria']
+
+        salva_gioco(nome, n_max_player, durata, categoria)
+        return redirect(url_for('main.home'))
+
+    return render_template('create_game.html')
+
+@bp.route('/registra')
+def registra_partita():
+    if request.method == 'GET':
+        return render_template('registra_partita.html')
+    if request.method == 'POST':
+        nome = request.form['nome']
+        n_max_player = request.form['n_max_player']
+        durata = request.form['durata']
+        categoria = request.form['categoria']
+
+        salva_gioco(nome, n_max_player, durata, categoria)
+        return redirect(url_for('main.home'))
+
+    return render_template('registra_partita.html')
+
+@bp.route('/giochi/<int:id>')
+def partite(id):
+    partite = lista_partite(id)
+    return render_template('mostra_partite.html', partite=partite)
